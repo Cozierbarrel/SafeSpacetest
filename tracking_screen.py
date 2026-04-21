@@ -45,14 +45,19 @@ class TrackingScreen(Screen):
         margin-bottom: 2;
     }
 
-    #emoji-row {
+    #emoji-grid {
         height: auto;
-        align: center middle;
         margin-bottom: 2;
     }
 
+    .emoji-row {
+        height: auto;
+        align: center middle;
+        margin-bottom: 1;
+    }
+
     .emoji-btn {
-        width: 7;
+        width: 14;
         height: 3;
         margin: 0 1;
         background: $surface-darken-1;
@@ -125,16 +130,25 @@ class TrackingScreen(Screen):
             yield Static("💭  Como você está agora?", id="tracking-title")
             yield Static("Selecione o emoji que melhor representa seu humor:", id="tracking-subtitle")
 
-            with Horizontal(id="emoji-row"):
-                for level in range(1, 7):
-                    emoji = MOOD_EMOJIS[level]
-                    label = MOOD_LABELS[level]
-                    yield Button(
-                        f"{emoji}\n{level}",
-                        id=f"mood-{level}",
-                        classes="emoji-btn",
-                        tooltip=label,
-                    )
+            with Vertical(id="emoji-grid"):
+                with Horizontal(classes="emoji-row"):
+                    for level in range(1, 4):
+                        emoji = MOOD_EMOJIS[level]
+                        label = MOOD_LABELS[level]
+                        yield Button(
+                            f"{emoji}  {label}",
+                            id=f"mood-{level}",
+                            classes="emoji-btn",
+                        )
+                with Horizontal(classes="emoji-row"):
+                    for level in range(4, 7):
+                        emoji = MOOD_EMOJIS[level]
+                        label = MOOD_LABELS[level]
+                        yield Button(
+                            f"{emoji}  {label}",
+                            id=f"mood-{level}",
+                            classes="emoji-btn",
+                        )
 
             yield Static("Selecione um emoji acima ↑", id="selected-label")
 
