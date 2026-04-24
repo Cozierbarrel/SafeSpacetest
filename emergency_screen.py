@@ -1,5 +1,5 @@
 """
-Tela de Emergência do SafeSpace.
+Tela de Emergência.
 Simula uma ligação para o contato de emergência cadastrado pelo usuário.
 """
 
@@ -11,11 +11,6 @@ from textual.containers import Container
 
 
 class EmergencyScreen(Screen):
-    """
-    Tela de emergência. Exibe o número do contato de emergência cadastrado
-    e simula uma chamada com contagem regressiva de 3 segundos antes de
-    retornar automaticamente ao menu principal.
-    """
 
     CSS = """
     EmergencyScreen {
@@ -103,17 +98,14 @@ class EmergencyScreen(Screen):
 
     def on_mount(self) -> None:
         """
-        Executado quando a tela é montada. Inicia a contagem regressiva
-        apenas se houver um contato de emergência cadastrado.
+        Inicia a contagem regressiva
         """
         if self._has_contact:
             self.set_interval(1.0, self._tick_countdown)
 
     def _tick_countdown(self) -> None:
         """
-        Reduz em 1 segundo o contador de retorno automático.
-        Quando chegar a 0, volta automaticamente ao menu principal.
-        Verifica se a tela ainda está montada antes de atualizar widgets.
+        Quando chegar a 0, volta automaticamente ao menu principal..
         """
         self._seconds_remaining -= 1
 

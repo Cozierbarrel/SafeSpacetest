@@ -37,26 +37,21 @@ MOOD_COLORS = {
 
 def mood_to_emoji(level: int) -> str:
     """
-    Converte um nível numérico de humor (1-6) para o emoji correspondente.
-    Arredonda o valor caso seja float antes de converter.
+    Converte um nível numérico de humor para o emoji correspondente.
     """
     level = max(1, min(6, round(level)))
     return MOOD_EMOJIS.get(level, "😐")
 
 
 def mood_to_label(level: int) -> str:
-    """
-    Converte um nível numérico de humor (1-6) para o rótulo textual correspondente.
-    """
+
     level = max(1, min(6, round(level)))
     return MOOD_LABELS.get(level, "Neutro")
 
 
 def compute_daily_averages(entries: list[dict]) -> dict[date, float]:
     """
-    Recebe uma lista de entradas de humor (dicts com 'recorded_at' e 'mood_level')
-    e retorna um dicionário {data: média_do_dia}, considerando múltiplos
-    registros no mesmo dia.
+    Recebe lista de entradas de humor considerando múltiplos registros no mesmo dia.
     """
     daily = defaultdict(list)
     for entry in entries:
@@ -68,10 +63,7 @@ def compute_daily_averages(entries: list[dict]) -> dict[date, float]:
 
 def generate_period_chart(daily_averages: dict[date, float], period_dates: list[date]) -> str:
     """
-    Gera um gráfico de barras horizontal em texto para exibição no terminal,
-    representando a flutuação de humor ao longo do período.
-    Recebe o dicionário de médias diárias e a lista completa de datas do período.
-    Retorna a string do gráfico formatado.
+    Gera um gráfico de barras horizontal em texto para exibição no terminal
     """
     if not period_dates:
         return "Nenhum dado para exibir."
@@ -100,8 +92,6 @@ def generate_period_chart(daily_averages: dict[date, float], period_dates: list[
 
 def compute_period_average(daily_averages: dict[date, float]) -> float | None:
     """
-    Calcula a média geral de um período a partir das médias diárias.
-    Retorna None se não houver dados.
     """
     if not daily_averages:
         return None
@@ -110,19 +100,12 @@ def compute_period_average(daily_averages: dict[date, float]) -> float | None:
 
 
 def get_week_dates(reference: date, offset: int = 0) -> list[date]:
-    """
-    Retorna a lista de 7 datas da semana (seg-dom) com base em uma data de referência.
-    O offset permite acessar semanas anteriores (offset=-1 = semana passada).
-    """
+    
     monday = reference - timedelta(days=reference.weekday()) + timedelta(weeks=offset)
     return [monday + timedelta(days=i) for i in range(7)]
 
 
 def get_month_dates(reference: date, offset: int = 0) -> list[date]:
-    """
-    Retorna a lista de todas as datas do mês com base em uma data de referência.
-    O offset permite acessar meses anteriores (offset=-1 = mês passado).
-    """
     import calendar
     month = reference.month + offset
     year = reference.year + (month - 1) // 12

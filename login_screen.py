@@ -11,8 +11,7 @@ from user_model import UserModel
 
 class LoginScreen(Screen):
     """
-    Tela de autenticação. Coleta email e senha e realiza o login
-    consultando o banco de dados via UserModel.
+    Tela de autenticação. Coleta email e senha e realiza o login consultando o banco de dados.
     """
 
     CSS = """
@@ -113,7 +112,6 @@ class LoginScreen(Screen):
     def _attempt_login(self) -> None:
         """
         Coleta os dados dos campos e tenta autenticar o usuário.
-        Exibe mensagem de erro em caso de falha ou navega para o menu em caso de sucesso.
         """
         email = self.query_one("#email-input", Input).value.strip()
         password = self.query_one("#password-input", Input).value

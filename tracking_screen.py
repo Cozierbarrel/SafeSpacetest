@@ -1,6 +1,5 @@
 """
-Tela de Tracking de Humor do SafeSpace.
-Permite ao usuário registrar seu humor atual com emoji e descrição.
+Tela de Tracking de Humor
 """
 
 from textual.app import ComposeResult
@@ -12,11 +11,6 @@ from mood_utils import MOOD_EMOJIS, MOOD_LABELS, mood_to_emoji
 
 
 class TrackingScreen(Screen):
-    """
-    Tela de registro de humor. O usuário seleciona um dos 6 níveis
-    (representados por emojis), escreve uma descrição opcional
-    e salva o registro com timestamp automático.
-    """
 
     CSS = """
     TrackingScreen {
@@ -119,13 +113,13 @@ class TrackingScreen(Screen):
     ]
 
     def __init__(self):
-        """Inicializa a tela de tracking com o modelo de humor e sem seleção inicial."""
+
         super().__init__()
         self._mood_model = MoodModel()
         self._selected_mood: int | None = None
 
     def compose(self) -> ComposeResult:
-        """Compõe os widgets da tela de tracking de humor."""
+        """widgets tracking de humor."""
         with Container(id="tracking-container"):
             yield Static("💭  Como você está agora?", id="tracking-title")
             yield Static("Selecione o emoji que melhor representa seu humor:", id="tracking-subtitle")
@@ -161,10 +155,7 @@ class TrackingScreen(Screen):
             yield Static("[dim]ESC: Voltar[/]", id="footer-hint")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
-        """
-        Trata cliques nos botões de seleção de humor, salvar e voltar.
-        Atualiza o estado visual quando um emoji é selecionado.
-        """
+
         btn_id = event.button.id
 
         if btn_id and btn_id.startswith("mood-"):
@@ -179,9 +170,7 @@ class TrackingScreen(Screen):
 
     def _select_mood(self, level: int) -> None:
         """
-        Atualiza a seleção de humor atual e reflete visualmente
-        qual botão está selecionado na interface.
-        """
+        Atualiza a seleção de humor atual"""
         self._selected_mood = level
 
         for i in range(1, 7):
@@ -200,8 +189,7 @@ class TrackingScreen(Screen):
 
     def _save_entry(self) -> None:
         """
-        Salva o registro de humor no banco de dados com o nível selecionado
-        e a descrição informada. Exibe mensagem de confirmação ou erro.
+        Salva o registro de humor 
         """
         if self._selected_mood is None:
             self.query_one("#msg", Static).update("[red]⚠ Selecione um emoji primeiro![/]")

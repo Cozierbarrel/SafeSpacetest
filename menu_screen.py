@@ -1,5 +1,5 @@
 """
-Tela de Menu Principal do SafeSpace após o login do usuário.
+Tela de Menu Principal.
 """
 
 from textual.app import ComposeResult
@@ -11,7 +11,6 @@ from textual.containers import Container, Vertical
 class MenuScreen(Screen):
     """
     Menu principal da aplicação. Apresenta as opções de navegação
-    disponíveis após o usuário estar autenticado.
     """
 
     CSS = """
@@ -79,7 +78,7 @@ class MenuScreen(Screen):
     ]
 
     def compose(self) -> ComposeResult:
-        """Compõe os widgets do menu principal."""
+        """widgets do menu principal."""
         user = getattr(self.app, "current_user", {})
         email = user.get("email", "Usuário") if user else "Usuário"
 
@@ -96,8 +95,7 @@ class MenuScreen(Screen):
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """
-        Trata os cliques nos botões do menu principal,
-        navegando para a tela correspondente à opção escolhida.
+        navegação para a tela correspondente à opção escolhida.
         """
         btn = event.button.id
         if btn == "btn-tracking":
@@ -114,13 +112,10 @@ class MenuScreen(Screen):
     def action_go_home(self) -> None:
         """
         Volta para a tela inicial, deslogando o usuário atual
-        e removendo todas as telas empilhadas até chegar na home.
         """
         self.app.current_user = None
-        # Remove todas as telas até sobrar só a home na pilha
         while len(self.app.screen_stack) > 1:
             self.app.pop_screen()
 
     def action_quit_app(self) -> None:
-        """Encerra a aplicação."""
         self.app.exit()

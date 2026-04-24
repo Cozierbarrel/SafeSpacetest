@@ -10,9 +10,7 @@ from database import get_connection
 
 def _hash_password(password: str, salt: str = None) -> tuple[str, str]:
     """
-    Gera um hash seguro para a senha usando SHA-256 com salt.
-    Se nenhum salt for fornecido, gera um novo aleatoriamente.
-    Retorna uma tupla (hash_hex, salt).
+    Gera um hash para a senha 
     """
     if salt is None:
         salt = os.urandom(32).hex()
@@ -21,10 +19,7 @@ def _hash_password(password: str, salt: str = None) -> tuple[str, str]:
 
 
 def _verify_password(password: str, stored_hash: str) -> bool:
-    """
-    Verifica se a senha informada corresponde ao hash armazenado.
-    O hash armazenado contém salt:hash separados por ':'.
-    """
+
     try:
         salt, expected_hash = stored_hash.split(":", 1)
         actual_hash, _ = _hash_password(password, salt)
@@ -34,17 +29,9 @@ def _verify_password(password: str, stored_hash: str) -> bool:
 
 
 class UserModel:
-    """
-    Classe responsável por todas as operações de banco de dados
-    relacionadas ao usuário: cadastro, login e consulta de perfil.
-    """
 
     def register(self, email: str, password: str, emergency_contact: str = "") -> tuple[bool, str]:
-        """
-        Cadastra um novo usuário no banco de dados.
-        Verifica se o email já está em uso antes de inserir.
-        Retorna (sucesso: bool, mensagem: str).
-        """
+
         try:
             conn = get_connection()
             cursor = conn.cursor()
@@ -69,10 +56,7 @@ class UserModel:
             return False, f"Erro ao cadastrar: {e}"
 
     def login(self, email: str, password: str) -> tuple[bool, dict | str]:
-        """
-        Autentica o usuário verificando email e senha.
-        Retorna (sucesso: bool, dados_do_usuario | mensagem_de_erro).
-        """
+
         try:
             conn = get_connection()
             cursor = conn.cursor()
@@ -100,10 +84,7 @@ class UserModel:
             return False, f"Erro ao fazer login: {e}"
 
     def get_by_id(self, user_id: int) -> dict | None:
-        """
-        Busca e retorna os dados de um usuário pelo seu ID.
-        Retorna None se não encontrado.
-        """
+
         try:
             conn = get_connection()
             cursor = conn.cursor()

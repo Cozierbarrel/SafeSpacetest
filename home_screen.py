@@ -1,5 +1,5 @@
 """
-Tela inicial do SafeSpace com opções de Login e Cadastro.
+Tela inicial com opções de Login e Cadastro.
 """
 
 from textual.app import ComposeResult
@@ -11,7 +11,7 @@ from textual.containers import Container, Vertical
 LOGO = """
 ╔═══════════════════════════════════╗
 ║                                   ║
-║   🌿  S A F E S P A C E  🌿      ║
+║        S A F E S P A C E          ║
 ║                                   ║
 ║   Seu espaço seguro de bem-estar  ║
 ║                                   ║
@@ -91,7 +91,6 @@ class HomeScreen(Screen):
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """
-        Trata o clique nos botões da tela inicial.
         Navega para Login ou Cadastro conforme o botão pressionado.
         """
         if event.button.id == "btn-login":

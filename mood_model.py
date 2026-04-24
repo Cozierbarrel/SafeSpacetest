@@ -9,9 +9,7 @@ from database import get_connection
 
 def _parse_recorded_at(value) -> datetime:
     """
-    Converte o campo recorded_at armazenado como TEXT no SQLite
-    para um objeto datetime do Python.
-    Suporta os formatos com e sem microssegundos.
+    Converte o campo recorded_at para um objeto datetime do Python.
     """
     for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M:%S.%f"):
         try:
@@ -24,15 +22,12 @@ def _parse_recorded_at(value) -> datetime:
 
 class MoodModel:
     """
-    Classe responsável por todas as operações de banco de dados
-    relacionadas ao registro e consulta de humor do usuário.
+    operações  relacionadas ao registro e consulta de humor do usuário.
     """
 
     def save_entry(self, user_id: int, mood_level: int, description: str = "") -> tuple[bool, str]:
         """
         Salva um novo registro de humor para o usuário.
-        O timestamp é gerado automaticamente pelo banco de dados.
-        Retorna (sucesso: bool, mensagem: str).
         """
         try:
             if not 1 <= mood_level <= 6:
@@ -54,8 +49,6 @@ class MoodModel:
     def get_entries_by_period(self, user_id: int, start: date, end: date) -> list[dict]:
         """
         Busca todas as entradas de humor do usuário em um período definido.
-        Recebe datas de início e fim e retorna uma lista de dicts com os registros,
-        com o campo recorded_at já convertido para datetime.
         """
         try:
             conn = get_connection()
@@ -89,7 +82,6 @@ class MoodModel:
     def has_data_in_period(self, user_id: int, start: date, end: date) -> bool:
         """
         Verifica se o usuário possui algum registro de humor no período informado.
-        Retorna True se houver ao menos um registro, False caso contrário.
         """
         try:
             conn = get_connection()
@@ -112,7 +104,6 @@ class MoodModel:
     def get_earliest_entry_date(self, user_id: int) -> date | None:
         """
         Retorna a data do registro de humor mais antigo do usuário.
-        Retorna None se não houver registros.
         """
         try:
             conn = get_connection()

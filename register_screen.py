@@ -1,5 +1,5 @@
 """
-Tela de Cadastro do SafeSpace com validação completa de dados.
+Tela de Cadastro 
 """
 
 from textual.app import ComposeResult
@@ -11,13 +11,7 @@ from validators import validate_email, validate_password, validate_phone, format
 
 
 class RegisterScreen(Screen):
-    """
-    Tela de cadastro de novo usuário. Coleta e valida:
-    - Email (formato e domínio)
-    - Senha (regras de segurança)
-    - Confirmação de senha
-    - Contato de emergência (opcional, formato telefone)
-    """
+
 
     CSS = """
     RegisterScreen {
@@ -116,7 +110,7 @@ class RegisterScreen(Screen):
         self._user_model = UserModel()
 
     def compose(self) -> ComposeResult:
-        """Compõe os widgets da tela de cadastro."""
+        """widgets da tela"""
         with ScrollableContainer(id="register-container"):
             yield Static("📝  Criar Conta", id="register-title")
             yield Static("Crie sua conta no SafeSpace", id="register-subtitle")
@@ -150,26 +144,20 @@ class RegisterScreen(Screen):
             yield Static("[dim]ESC: Voltar[/]", id="footer-hint")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
-        """
-        Trata cliques nos botões de cadastro e voltar.
-        """
+
         if event.button.id == "btn-back":
             self.action_go_back()
         elif event.button.id == "btn-do-register":
             self._attempt_register()
 
     def _clear_errors(self) -> None:
-        """
-        Limpa todas as mensagens de erro exibidas na tela.
-        """
+
         for widget_id in ["email-error", "password-error", "confirm-error", "phone-error", "global-error", "global-success"]:
             self.query_one(f"#{widget_id}", Static).update("")
 
     def _attempt_register(self) -> None:
         """
-        Coleta os dados do formulário, valida cada campo individualmente
-        e, se tudo estiver correto, registra o usuário no banco de dados.
-        Exibe mensagens de erro específicas para cada campo inválido.
+        Coleta os dados do formulário e registra
         """
         self._clear_errors()
         has_error = False

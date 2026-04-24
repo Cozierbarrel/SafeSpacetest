@@ -1,14 +1,13 @@
 """
 SafeSpace - Aplicação de Controle de Humor
 ==========================================
-Ponto de entrada principal da aplicação TUI (Terminal User Interface)
-construída com Textual e MySQL.
+Ponto de entrada principal da aplicação 
+construída com Textual e Sqlite.
 
 Módulos:
     config/database.py   - Configuração e inicialização do banco de dados
     models/user_model.py  - Operações de usuário no banco
     models/mood_model.py  - Operações de humor no banco
-    screens/             - Todas as telas da aplicação
     utils/validators.py  - Validação de email, senha e telefone
     utils/mood_utils.py  - Utilitários de humor (emojis, gráficos)
 """
@@ -78,26 +77,15 @@ class SafeSpaceApp(App):
     }
 
     def __init__(self):
-        """
-        Inicializa a aplicação e define o usuário atual como None.
-        O usuário é populado após o login bem-sucedido.
-        """
         super().__init__()
         self.current_user: dict | None = None
 
     def on_mount(self) -> None:
-        """
-        Executado quando a aplicação é montada.
-        Navega para a tela inicial.
-        """
         self.push_screen("home")
 
 
 def main():
-    """
-    Função principal. Inicializa o banco de dados SQLite e inicia a aplicação TUI.
-    O arquivo safespace.db é criado automaticamente na pasta do projeto.
-    """
+
     print("🌿 Iniciando SafeSpace...")
 
     try:

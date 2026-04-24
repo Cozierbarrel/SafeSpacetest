@@ -1,5 +1,5 @@
 """
-Módulo de utilitários para validação de dados de entrada do usuário.
+Módulo de utilitários para validação 
 """
 
 import re
@@ -14,10 +14,7 @@ VALID_EMAIL_DOMAINS = [
 
 
 def validate_email(email: str) -> tuple[bool, str]:
-    """
-    Valida se o email está em formato correto e pertence a um domínio permitido.
-    Retorna uma tupla (válido: bool, mensagem: str).
-    """
+
     email = email.strip().lower()
     pattern = r"^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
 
@@ -32,14 +29,7 @@ def validate_email(email: str) -> tuple[bool, str]:
 
 
 def validate_password(password: str) -> tuple[bool, str]:
-    """
-    Valida se a senha atende aos requisitos mínimos de segurança:
-    - Mínimo 8 caracteres
-    - Pelo menos 1 letra maiúscula
-    - Pelo menos 2 números
-    - Pelo menos 1 caractere especial
-    Retorna uma tupla (válido: bool, mensagem: str).
-    """
+
     if len(password) < 8:
         return False, "A senha deve ter pelo menos 8 caracteres."
 
@@ -56,11 +46,7 @@ def validate_password(password: str) -> tuple[bool, str]:
 
 
 def validate_phone(phone: str) -> tuple[bool, str]:
-    """
-    Valida se o telefone está em formato brasileiro válido.
-    Aceita formatos: (XX) XXXXX-XXXX, (XX) XXXX-XXXX, com ou sem formatação.
-    Retorna uma tupla (válido: bool, mensagem: str).
-    """
+
     if not phone or phone.strip() == "":
         return True, "Contato opcional não informado."
 
@@ -73,10 +59,7 @@ def validate_phone(phone: str) -> tuple[bool, str]:
 
 
 def format_phone(phone: str) -> str:
-    """
-    Formata um número de telefone para o padrão (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.
-    Retorna a string formatada ou vazia se inválida.
-    """
+    
     if not phone:
         return ""
     digits = re.sub(r"\D", "", phone)

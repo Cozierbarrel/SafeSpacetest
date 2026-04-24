@@ -1,7 +1,5 @@
 """
-Módulo de configuração e conexão com o banco de dados SQLite.
 O arquivo do banco é criado automaticamente na pasta do projeto.
-Não requer instalação de nenhum servidor externo.
 """
 
 import sqlite3
@@ -14,13 +12,11 @@ DB_PATH = os.path.join(_BASE_DIR, "safespace.db")
 
 def get_connection() -> sqlite3.Connection:
     """
-    Cria e retorna uma conexão com o banco de dados SQLite.
-    Configura o row_factory para retornar linhas como dicionários
-    e habilita o suporte a chaves estrangeiras (desligado por padrão no SQLite).
+    Configura para retornar linhas como dicionários e habilita o suporte a chaves estrangeiras.
     """
     conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row           # permite acesso por nome de coluna
-    conn.execute("PRAGMA foreign_keys = ON") # habilita FK constraints
+    conn.row_factory = sqlite3.Row           
+    conn.execute("PRAGMA foreign_keys = ON") 
     return conn
 
 
@@ -28,7 +24,6 @@ def initialize_database() -> None:
     """
     Inicializa o banco de dados criando as tabelas necessárias
     caso elas ainda não existam. Deve ser chamada na inicialização do app.
-    Utiliza SQLite, portanto nenhum servidor externo é necessário.
     """
     conn = get_connection()
     cursor = conn.cursor()

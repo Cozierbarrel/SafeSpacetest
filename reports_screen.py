@@ -1,6 +1,5 @@
 """
-Tela de Relatórios do SafeSpace.
-Exibe gráficos de flutuação de humor por semana ou mês com médias diárias.
+Tela de Relatórios
 """
 
 from datetime import date
@@ -22,11 +21,6 @@ from mood_utils import (
 
 
 class ReportsScreen(Screen):
-    """
-    Tela de relatórios de humor. Permite visualizar a flutuação de humor
-    por semana ou mês, incluindo navegação para períodos anteriores.
-    Mostra gráfico ASCII com médias diárias e média geral do período.
-    """
 
     CSS = """
     ReportsScreen {
@@ -136,10 +130,7 @@ class ReportsScreen(Screen):
     ]
 
     def __init__(self):
-        """
-        Inicializa a tela de relatórios com modo semana, offset zero
-        e carrega os dados ao ser montada.
-        """
+
         super().__init__()
         self._mood_model = MoodModel()
         self._mode: str = "week"
@@ -147,7 +138,7 @@ class ReportsScreen(Screen):
         self._today = date.today()
 
     def compose(self) -> ComposeResult:
-        """Compõe os widgets da tela de relatórios."""
+        """widgets da tela """
         with Container(id="reports-container"):
             yield Static("📊  Relatórios de Humor", id="reports-title")
 
@@ -175,15 +166,12 @@ class ReportsScreen(Screen):
             yield Static("[dim]ESC: Voltar │ ←/→: Navegar períodos[/]", id="footer-hint")
 
     def on_mount(self) -> None:
-        """
-        Executado quando a tela é montada. Carrega o relatório do período atual.
-        """
+       
         self._render_report()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """
-        Trata todos os cliques de botões da tela de relatórios:
-        alternância de modo (semana/mês), navegação temporal e voltar.
+        Trata todos os cliques de botões
         """
         btn_id = event.button.id
 
@@ -211,7 +199,6 @@ class ReportsScreen(Screen):
     def _update_period_buttons(self) -> None:
         """
         Atualiza o estilo visual dos botões de modo (semana/mês)
-        destacando o modo atualmente selecionado.
         """
         week_btn = self.query_one("#btn-week", Button)
         month_btn = self.query_one("#btn-month", Button)
@@ -223,10 +210,7 @@ class ReportsScreen(Screen):
             week_btn.remove_class("active")
 
     def _get_period_dates(self) -> list[date]:
-        """
-        Retorna a lista de datas do período atual conforme modo e offset.
-        Delega para as funções utilitárias de semana ou mês.
-        """
+
         if self._mode == "week":
             return get_week_dates(self._today, self._offset)
         else:
@@ -235,7 +219,6 @@ class ReportsScreen(Screen):
     def _get_period_label(self, dates: list[date]) -> str:
         """
         Gera o rótulo textual do período exibido no cabeçalho do relatório.
-        Ex: '14/04 - 20/04/2025' para semana ou 'Abril/2025' para mês.
         """
         MONTHS_PT = [
             "", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -249,10 +232,7 @@ class ReportsScreen(Screen):
             return f"{MONTHS_PT[dates[0].month]}/{dates[0].year}"
 
     def _render_report(self) -> None:
-        """
-        Busca os dados de humor do período atual, calcula médias diárias
-        e renderiza o gráfico ASCII e a média geral na tela.
-        """
+    
         user = getattr(self.app, "current_user", None)
         if not user:
             return
@@ -290,8 +270,7 @@ class ReportsScreen(Screen):
     def action_nav_prev(self) -> None:
         """
         Navega para o período anterior (semana ou mês).
-        Verifica se há dados no histórico do usuário para limitar a navegação
-        além do primeiro registro existente.
+
         """
         user = getattr(self.app, "current_user", None)
         if not user:
@@ -308,14 +287,14 @@ class ReportsScreen(Screen):
         else:
             test_dates = get_month_dates(self._today, new_offset)
 
-        # Permite navegar enquanto o período não for anterior ao primeiro registro
+        
         if test_dates[-1] >= earliest:
             self._offset = new_offset
             self._render_report()
 
     def action_nav_next(self) -> None:
         """
-        Navega para o próximo período, impedindo ir além do período atual.
+        Navega para o próximo período
         """
         if self._offset < 0:
             self._offset += 1
